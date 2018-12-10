@@ -7,7 +7,7 @@ const sequelize = new Sequelize('teammanageapp', 'postgres', 'asd123', {
   dialect: 'postgres',
   operatorsAliases: false,
 });
-
+const Op = Sequelize.Op;
 const Project = ProjectModel(sequelize, Sequelize);
 const Member = MemberModel(sequelize, Sequelize)
 const ProjectMember = sequelize.define('project_member', {})
@@ -15,12 +15,13 @@ const ProjectMember = sequelize.define('project_member', {})
 Project.belongsToMany(Member, { through: ProjectMember})
 Member.belongsToMany(Project, { through: ProjectMember})
 
-sequelize.sync({ force: true })
+sequelize.sync({ force: false })
   .then(() => {
     console.log(`Database & tables created!`)
   })
 
 module.exports = {
+  Op,
   Project,
   Member
 }

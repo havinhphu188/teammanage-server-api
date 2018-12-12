@@ -15,7 +15,7 @@ const ProjectMember = sequelize.define('project_member', {})
 Project.belongsToMany(Member, { through: ProjectMember})
 Member.belongsToMany(Project, { through: ProjectMember})
 
-sequelize.sync({ force: false })
+sequelize.sync({ force: true })
   .then(() => {
     console.log(`Database & tables created!`)
   })

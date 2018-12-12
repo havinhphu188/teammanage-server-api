@@ -13,6 +13,14 @@ router.get("/all-project", function(req, res) {
   })
 });
 
+
+router.get("/all-member", function(req, res) {
+  //res.json({ title: 'Express' });
+  Member.findAll().then(members=>{
+    res.json(members);
+  })
+});
+
 /*
 list get project info
 param: id of the requested project
@@ -26,7 +34,8 @@ router.get("/get-project-info", function(req, res) {
 
 /*
 get all assigned member of current project
-param: id of requested project
+param: 
+id: id of requested project
 */
 router.get("/get-assigned-member", function(req, res) {
   //res.json({ title: 'Express' });
@@ -39,7 +48,7 @@ router.get("/get-assigned-member", function(req, res) {
  * get unassigned member of current project. 
  * param: id of requesed project
  */
-router.get("/get-unassigned-member", function(req, res) {
+router.get("/get-unassigned-members", function(req, res) {
   //res.json({ title: 'Express' });
   Project.findById(req.query.id)
       .then(
@@ -55,9 +64,9 @@ router.get("/get-unassigned-member", function(req, res) {
           }
         })  
       })
-      .then(unassignedMember => {
+      .then(unassignedMember => 
         res.json(unassignedMember)
-      });
+      );
 });
 
 /**
@@ -116,7 +125,7 @@ router.post("/assigned-member-to-project", function(req, res) {
   var promiseFindProject = Project.findById(req.body.projectId);
 
   Promise.all([promiseFindProject, promiseFindMembers]).then(function (values) {
-    values[0].setMembers(values[1]);
+    values[0].addMembers(values[1]);
   })
   .then(result=>{
     res.json(result);
